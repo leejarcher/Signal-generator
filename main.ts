@@ -1,24 +1,45 @@
 function array () {
     freqList = [1, 5, 10, 50, 100, 500, 1000, 5000, 10000, 50000, 100000, 500000]
 }
-function updateWave () {
-    pins.analogWritePin(AnalogPin.P0, 10.24 * pulseWidth)
-    freqIndex = Math.constrain(freqIndex, 0, 11)
-    basic.showNumber(freqIndex)
-    pins.analogSetPeriod(AnalogPin.P0, 1000000 / freqList[freqIndex])
-}
 input.onButtonPressed(Button.A, function () {
-    freqIndex = freqIndex - 1
-    updateWave()
+    if (pwFreq) {
+        freqIndex = freqIndex - 1
+        updateFrequency()
+    }
+})
+input.onButtonPressed(Button.AB, function () {
+    pwFreq = !(pwFreq)
 })
 input.onButtonPressed(Button.B, function () {
-    freqIndex = freqIndex + 1
-    updateWave()
+    if (pwFreq) {
+        freqIndex = freqIndex + 1
+        updateFrequency()
+    }
 })
+function updateFrequency () {
+    freqIndex = Math.constrain(freqIndex, 0, 11)
+    freq = freqList[freqIndex]
+    pins.analogSetPeriod(AnalogPin.P0, 1000000 / freq)
+    if (freq > 999) {
+        freq = freq / 1000
+        units = "kHz"
+    } else {
+        units = "Hz"
+    }
+    basic.showString("" + freq + units)
+}
+function updatePW () {
+    pins.analogWritePin(AnalogPin.P0, 10.24 * pulseWidth)
+}
+let units = ""
+let freq = 0
 let freqList: number[] = []
+let pwFreq = false
 let freqIndex = 0
 let pulseWidth = 0
 pulseWidth = 50
 freqIndex = 6
+pwFreq = true
 array()
-updateWave()
+updatePW()
+updateFrequency()
