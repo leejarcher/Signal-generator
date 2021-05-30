@@ -1,5 +1,5 @@
 function array () {
-    freqList = [1, 5, 10, 50, 100, 500, 1000, 5000, 10000, 50000, 100000, 500000]
+    freqList = [2, 5, 10, 50, 100, 500, 1000, 5000, 10000, 50000, 100000, 500000]
 }
 input.onButtonPressed(Button.A, function () {
     if (pwFreq) {
@@ -9,6 +9,11 @@ input.onButtonPressed(Button.A, function () {
 })
 input.onButtonPressed(Button.AB, function () {
     pwFreq = !(pwFreq)
+    if (pwFreq) {
+        updateFrequency()
+    } else {
+        updatePW()
+    }
 })
 input.onButtonPressed(Button.B, function () {
     if (pwFreq) {
@@ -17,8 +22,8 @@ input.onButtonPressed(Button.B, function () {
     }
 })
 function updateFrequency () {
-    freqIndex = Math.constrain(freqIndex, 0, 11)
-    freq = freqList[freqIndex]
+    freqIndex = Math.constrain(freqIndex, 1, freqList.length)
+    freq = freqList[freqIndex - 1]
     pins.analogSetPeriod(AnalogPin.P0, 1000000 / freq)
     if (freq > 999) {
         freq = freq / 1000
@@ -38,7 +43,7 @@ let pwFreq = false
 let freqIndex = 0
 let pulseWidth = 0
 pulseWidth = 50
-freqIndex = 6
+freqIndex = 7
 pwFreq = true
 array()
 updatePW()
