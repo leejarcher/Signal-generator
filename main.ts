@@ -5,6 +5,9 @@ input.onButtonPressed(Button.A, function () {
     if (pwFreq) {
         freqIndex = freqIndex - 1
         updateFrequency()
+    } else {
+        pulseWidth = pulseWidth - 5
+        updatePW()
     }
 })
 input.onButtonPressed(Button.AB, function () {
@@ -19,6 +22,9 @@ input.onButtonPressed(Button.B, function () {
     if (pwFreq) {
         freqIndex = freqIndex + 1
         updateFrequency()
+    } else {
+        pulseWidth = pulseWidth + 5
+        updatePW()
     }
 })
 function updateFrequency () {
@@ -35,6 +41,7 @@ function updateFrequency () {
 }
 function updatePW () {
     pins.analogWritePin(AnalogPin.P0, 10.24 * pulseWidth)
+    basic.showString("" + pulseWidth + "%")
 }
 let units = ""
 let freq = 0
