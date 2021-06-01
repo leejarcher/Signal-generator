@@ -40,6 +40,7 @@ function updateFrequency () {
     basic.showString("" + freq + units)
 }
 function updatePW () {
+    pulseWidth = Math.constrain(pulseWidth, 5, 95)
     pins.analogWritePin(AnalogPin.P0, 10.24 * pulseWidth)
     basic.showString("" + pulseWidth + "%")
 }
